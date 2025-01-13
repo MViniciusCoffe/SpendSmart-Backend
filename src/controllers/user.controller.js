@@ -23,19 +23,23 @@ async function remove(req, res) {
   if (!user) {
     return res.status(404).json({ message: "Usuário não encontrado" });
   }
-  await UserModel.delete(email)
-  res.json({ message: "Usuário removido" })
+  await UserModel.delete(email);
+  res.json({ message: "Usuário removido" });
 }
 
 async function update(req, res) {
-  const email = req.params.email
-  const user = req.body
-  const userFind = await UserModel.find(email)
+  const email = req.params.email;
+  const user = req.body;
+  const userFind = await UserModel.find(email);
   if (!userFind) {
     return res.status(404).json({ message: "Usuário não encontrado" });
   }
-  await UserModel.update(email, user)
-  res.json({ message: "Usuário Atualizado" })
+  const updatedUser = await UserModel.update(email, user);
+  res.json({ message: "Usuário Atualizado", updatedUser: updatedUser });
 }
 
-module.exports = { store, remove, update };
+async function show(req, res) {
+  res.json(await UserModel.show());
+}
+
+module.exports = { store, remove, update, show };

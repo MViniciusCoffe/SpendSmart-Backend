@@ -46,14 +46,16 @@ class UserModel {
   async delete(email) {
     const client = await pool.connect();
     const sql = "DELETE FROM usuarios WHERE email=$1;";
-    const result = await client.query(sql, [email]);
+    const values = [email];
+    const result = await client.query(sql, values);
     client.release();
     return result;
   }
 
-  // COALESCE garante que dados nulos não sejam sobrescritos
   async update(email, user) {
     const client = await pool.connect();
+
+    // COALESCE() garante que dados nulos não sejam sobrescritos
     const sql = `
       UPDATE usuarios 
       SET 
@@ -71,11 +73,19 @@ class UserModel {
       user.telefone || null,
       email,
     ];
-  
+
     const result = await client.query(sql, values);
     client.release();
     return result.rows[0];
-  }  
+  }
+
+  async show() {
+    const client = await pool.connect();
+    const sql = `SELECT * FROM usuarios;`;
+    const data = await client.query(sql);
+    client.release();
+    return data.rows;
+  }
 }
 
 module.exports = new UserModel();
