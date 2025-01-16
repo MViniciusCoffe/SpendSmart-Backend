@@ -12,7 +12,7 @@ async function store(req, res) {
     user.senha,
     user.dataNascimento,
     user.telefone,
-    new Date().toISOString(), // Gerar a data de criação do usuário (está no fuso-horário do Reino Unido 0)
+    new Date().toISOString(), // Gerar a data de criação do usuário (está no fuso-horário do Reino Unido (UTC/GMT +00:00))
   );
   res.json({ message: "Usuário Criado" });
 }
