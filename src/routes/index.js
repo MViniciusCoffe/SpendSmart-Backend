@@ -8,6 +8,7 @@ const incomeController = require("../controllers/income.controller");
 const spendController = require("../controllers/spend.controller");
 const authController = require("../controllers/auth.controller");
 
+// Rota de autenticação
 router.post("/auth", authController.login);
 
 // Rotas do usuário
@@ -29,7 +30,7 @@ router.delete("/income/:id", auth, incomeController.remove);
 
 // Rotas dos Gastos
 router.post("/spend", auth, spendController.store);
-router.get("/spend", spendController.show);
-router.delete("/spend/:id", spendController.remove);
+router.get("/spend", auth, spendController.show);
+router.delete("/spend/:id", auth, spendController.remove);
 
 module.exports = router;
