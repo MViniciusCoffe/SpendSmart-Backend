@@ -14,3 +14,5 @@ pool.query("SELECT NOW()", (err, res) => {
   }
   pool.end();
 });
+
+const pool = require("../database");
